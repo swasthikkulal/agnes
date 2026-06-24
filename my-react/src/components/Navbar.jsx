@@ -45,6 +45,13 @@ const Navbar = () => {
               </li>
               <li
                 onClick={() => {
+                  navigation("/landing");
+                }}
+              >
+                Landing
+              </li>
+              <li
+                onClick={() => {
                   navigation("/about");
                 }}
               >
@@ -84,13 +91,18 @@ const Navbar = () => {
         <div className="collapse-content lg:hidden z-1">
           <ul className="menu">
             <li>
-              <button>Home</button>
+              <button onClick={() => navigation("/")}>Home</button>
+            </li>
+            <li>
+              <button onClick={() => navigation("/landing")}>Landing</button>
             </li>
 
             <li>
-              <button>About</button>
+              <button onClick={() => navigation("/about")}>About</button>
             </li>
-            <li>Contact</li>
+            <li>
+              <button onClick={() => navigation("/contact")}>Contact</button>
+            </li>
           </ul>
         </div>
       </div>

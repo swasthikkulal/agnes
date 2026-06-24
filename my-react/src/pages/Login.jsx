@@ -28,19 +28,22 @@ const Login = () => {
 
     setLoading(true);
     try {
-      await axios
-        .post("http://localhost:5000/api/login-user", {
-          email: formData.email,
-          password: formData.password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          localStorage.setItem("token", res.data.token)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const res = await axios.post("http://localhost:5000/api/login-user", {
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      if (res.data.success) {
+        setSuccess("Login successful! Redirecting...");
+        localStorage.setItem("token", res.data.token);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      } else {
+        setError(res.data.message || "Invalid credentials");
+      }
     } catch (err) {
+      console.error(err);
       setError(
         err.response?.data?.message ||
           "Something went wrong. Please try again.",

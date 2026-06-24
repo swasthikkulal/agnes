@@ -29,21 +29,23 @@ const Register = () => {
 
     setLoading(true);
     try {
-      await axios
-        .post("http://localhost:5000/api/create-user", {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        })
-        .then((res) => {
-          console.log(res.data.token);
-          const token = res.data.token;
-          localStorage.setItem("token", token);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const res = await axios.post("http://localhost:5000/api/create-user", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (res.data.success) {
+        setSuccess("Registration successful! Redirecting to login...");
+        localStorage.setItem("token", res.data.token);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      } else {
+        setError(res.data.message || "Registration failed");
+      }
     } catch (err) {
+      console.error(err);
       setError(
         err.response?.data?.message ||
           "Something went wrong. Please try again.",
