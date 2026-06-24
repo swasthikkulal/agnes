@@ -14,18 +14,15 @@ const CreateContext = ({ children }) => {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setdata(res.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   };
-
-  const handleSubmit = (user) => {
+  const sendData = (user)=>{
     const token = localStorage.getItem("token");
-    axios
-      .put("http://localhost:5000/api/update-user", user, {
+    axios.put("http://localhost:5000/api/update-user", user, {
         headers: {
           Authorization: token,
         },
@@ -36,27 +33,26 @@ const CreateContext = ({ children }) => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
-  const sendTweet = (formData) => {
-    const token = localStorage.getItem("token");
-    axios
-      .post("http://localhost:5000/api/create-tweet", formData, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+ 
+  // const sendTweet = (formData) => {
+  //   const token = localStorage.getItem("token");
+  //   axios
+  //     .post("http://localhost:5000/api/create-tweet", formData, {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   return (
-    <MyContext.Provider value={{ data, getUserData, handleSubmit, sendTweet }}>
-      {children}
-    </MyContext.Provider>
+    <MyContext.Provider value={{ getUserData, data, sendData }}>{children}</MyContext.Provider>
   );
 };
 
