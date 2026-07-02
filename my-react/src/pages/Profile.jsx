@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MyContext } from "../context/CreateContext";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { getUserData, data, sendData } = useContext(MyContext);
   const [user, setuser] = useState({
     name: "",
@@ -40,8 +42,6 @@ const Profile = () => {
       <div className="flex items-center justify-center p-6 mt-10">
         <div className="card w-full max-w-md bg-base-100 shadow-2xl border border-base-200">
           <div className="card-body">
-
-
             {successMsg && (
               <div className="alert alert-success shadow-sm py-2 text-sm mb-4">
                 <span>{successMsg}</span>
@@ -66,7 +66,9 @@ const Profile = () => {
 
               <div className="form-control w-full">
                 <label className="label">
-                  <span className="label-text font-semibold">Email Address</span>
+                  <span className="label-text font-semibold">
+                    Email Address
+                  </span>
                 </label>
                 <input
                   type="email"
@@ -75,7 +77,9 @@ const Profile = () => {
                   className="input input-bordered w-full bg-base-200 text-base-content/50 cursor-not-allowed"
                   readOnly
                 />
-                <span className="text-xs text-base-content/40 mt-1">Email cannot be changed.</span>
+                <span className="text-xs text-base-content/40 mt-1">
+                  Email cannot be changed.
+                </span>
               </div>
 
               <button
@@ -85,6 +89,13 @@ const Profile = () => {
                 Update Profile
               </button>
             </form>
+
+            <button
+              className="py-2.5 px-3 bg-blue-500 text-white"
+              onClick={() => navigate("/tweet")}
+            >
+              Make a Tweet
+            </button>
           </div>
         </div>
       </div>
