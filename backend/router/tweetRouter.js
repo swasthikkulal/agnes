@@ -5,7 +5,7 @@ import { upload } from "../config/multer.js";
 
 const router = express.Router()
 router.post("/create-tweet", authMiddleware, upload.single("image"), createTweet)
-router.get("/get-tweet", getAllTweet )
+router.get("/get-tweets", getAllTweet )
 
 
 export default router;

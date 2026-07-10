@@ -1,141 +1,119 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
-const features = [
-  {
-    title: "Fast delivery",
-    text: "Launch clean pages quickly with reusable sections and polished spacing.",
-  },
-  {
-    title: "Modern layout",
-    text: "Responsive blocks keep content balanced across mobile, tablet, and desktop.",
-  },
-  {
-    title: "Clear actions",
-    text: "Focused calls to action guide visitors toward the next step.",
-  },
-];
-
-const stats = [
-  { value: "48h", label: "Prototype time" },
-  { value: "12k+", label: "Visitors reached" },
-  { value: "99%", label: "Responsive fit" },
-];
+import React, { useContext, useEffect } from "react";
+import { MyContext } from "../context/CreateContext";
 
 const LandingPage = () => {
+  const { getAllTweets, tweet } = useContext(MyContext);
+
+  useEffect(() => {
+    getAllTweets();
+  }, []);
+
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
-      <section className="relative min-h-[92vh] overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1800&q=80"
-          alt="Creative team planning a product launch"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-slate-950/75" />
+    <div className="min-h-screen bg-black text-white flex">
+      {/* Left Sidebar */}
+      <div className="w-[25%] border-r border-gray-800 p-6 sticky top-0 h-screen">
+        <div className="mb-10 ">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="w-20 h-20 fill-current text-white"
+          >
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        </div>
 
-        <nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-10">
-          <Link to="/" className="text-xl font-bold tracking-wide">
-            Agnes Studio
-          </Link>
-          <div className="hidden items-center gap-7 text-sm font-medium text-slate-200 md:flex">
-            <a href="#work">Work</a>
-            <a href="#features">Features</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <Link to="/contact" className="btn btn-primary btn-sm rounded-md">
-            Start now
-          </Link>
-        </nav>
+        <div className="space-y-5 text-xl font-medium ">
+          <p className="cursor-pointer hover:text-blue-400"> Home</p>
+          <p className="cursor-pointer hover:text-blue-400"> Explore</p>
 
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 pb-12 pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:px-10 lg:pt-28">
-          <div className="max-w-3xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
-              Product landing experience
-            </p>
-            <h1 className="text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl">
-              Build a launch page that feels premium from the first click.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">
-              A focused landing page for showcasing products, services, and
-              campaigns with strong visuals, clean sections, and direct actions.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/register" className="btn btn-primary rounded-md">
-                Get started
-              </Link>
-              <a href="#work" className="btn btn-outline rounded-md text-white">
-                View work
-              </a>
-            </div>
-          </div>
+          <p className="cursor-pointer hover:text-blue-400"> Profile</p>
+        </div>
+      </div>
 
-          <div className="self-end border border-white/15 bg-white/10 p-5 backdrop-blur-md">
-            <div className="grid grid-cols-3 gap-4">
-              {stats.map((item) => (
-                <div key={item.label}>
-                  <p className="text-3xl font-bold text-cyan-200">
-                    {item.value}
-                  </p>
-                  <p className="mt-1 text-sm text-slate-200">{item.label}</p>
+      {/* Feed */}
+      <div className="w-[50%] border-r border-gray-800 overflow-y-auto h-screen ">
+        <div className="sticky top-0 bg-black/80 backdrop-blur-md border-b border-gray-800 p-5 z-10">
+          <h2 className="text-2xl font-bold">Home</h2>
+        </div>
+
+        <div className="p-5 space-y-5">
+          {tweet.map((item, index) => (
+            <div
+              key={index}
+              className="flex gap-4 p-5 border border-gray-800 rounded-2xl hover:bg-zinc-900 transition duration-300"
+            >
+              {/* Profile */}
+              <div className="w-14 h-14 flex-shrink-0">
+                <img
+                  src="https://cdn.zeebiz.com/sites/default/files/2022/11/05/209096-virat-kohli-7-pti.jpg"
+                  alt=""
+                  className="w-full h-full rounded-full object-cover"
+                />
+              </div>
+
+              {/* Tweet Content */}
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="font-bold text-lg">{item.userId?.name}</h3>
+
+                  <span className="text-gray-500 text-sm">
+                    @{item.userId?.name?.toLowerCase().replace(/\s/g, "")}
+                  </span>
+
+                  <span className="text-gray-600">·</span>
+
+                  <span className="text-gray-500 text-sm">Now</span>
                 </div>
-              ))}
+
+                <p className="text-gray-200 leading-7 mb-4">{item.tweet}</p>
+
+                {item.image && (
+                  <img
+                    src={`http://localhost:5000/uploads/${item.image}`}
+                    alt=""
+                    className="rounded-2xl w-full max-h-[500px] object-cover border border-gray-700"
+                  />
+                )}
+
+                {/* Actions */}
+                <div className="flex justify-between mt-5 text-gray-500 text-lg">
+                  <button className="hover:text-pink-500 transition">❤️</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Right Sidebar */}
+      <div className="w-[25%] p-6">
+        <div className="bg-zinc-900 rounded-2xl p-5">
+          <h2 className="text-xl font-bold mb-4">Trending</h2>
+
+          <div className="space-y-4">
+            <div>
+              <p className="text-gray-500 text-sm">Technology</p>
+              <h3 className="font-semibold">#ReactJS</h3>
+            </div>
+
+            <div>
+              <p className="text-gray-500 text-sm">Programming</p>
+              <h3 className="font-semibold">#MERN</h3>
+            </div>
+
+            <div>
+              <p className="text-gray-500 text-sm">Web Development</p>
+              <h3 className="font-semibold">#TailwindCSS</h3>
+            </div>
+
+            <div>
+              <p className="text-gray-500 text-sm">DevOps</p>
+              <h3 className="font-semibold">#Docker</h3>
             </div>
           </div>
         </div>
-      </section>
-
-      <section id="features" className="bg-white px-6 py-20 text-slate-950">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700">
-              Why it works
-            </p>
-            <h2 className="mt-3 text-4xl font-bold">Designed for conversion</h2>
-          </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {features.map((feature) => (
-              <article
-                key={feature.title}
-                className="rounded-md border border-slate-200 bg-slate-50 p-6"
-              >
-                <h3 className="text-xl font-semibold">{feature.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{feature.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="work" className="bg-slate-100 px-6 py-20 text-slate-950">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
-          <img
-            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-            alt="Bright workspace with design boards"
-            className="h-[420px] w-full rounded-md object-cover"
-          />
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700">
-              Showcase
-            </p>
-            <h2 className="mt-3 text-4xl font-bold">
-              A visual story with useful sections below the fold.
-            </h2>
-            <p className="mt-5 leading-8 text-slate-600">
-              The page gives visitors the core message immediately, then follows
-              with proof points and a clear path into registration or contact.
-            </p>
-            <div id="contact" className="mt-8 flex flex-wrap gap-3">
-              <Link to="/contact" className="btn btn-primary rounded-md">
-                Contact us
-              </Link>
-              <Link to="/" className="btn rounded-md">
-                Back home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };
 
