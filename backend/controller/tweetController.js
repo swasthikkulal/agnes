@@ -30,7 +30,7 @@ export const createTweet = async (req, res) => {
 
 export const getAllTweet = async (req, res) => {
     try {
-        const Tweets = await tweetModel.find()
+        const Tweets = await tweetModel.find().populate("userId", "name email")
         if (!Tweets) {
             return res.json({ success: false, message: "no tweet found" })
         }
