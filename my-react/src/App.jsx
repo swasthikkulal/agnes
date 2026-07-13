@@ -17,6 +17,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Tweet from "./pages/Tweet";
 import LandingPage from "./pages/LandingPage";
+import MyTweet from "./pages/MyTweet";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -37,6 +38,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/tweet" element={<Tweet/>}/>
           <Route path="/landing" element={<LandingPage />} />
+          <Route path="/mytweet" element={<MyTweet/>} />
         </Routes>
       </BrowserRouter>
     </div>
