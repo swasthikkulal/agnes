@@ -39,3 +39,33 @@ export const getAllTweet = async (req, res) => {
         return res.json({ success: false, message: error.message })
     }
 }
+
+export const getmyTweet = async (req, res) => {
+    try {
+        const id = req.user.id
+        console.log(id)
+        const findTweet = await tweetModel.find({ userId: id }).populate("userId", "name email")
+        console.log(findTweet)
+        if (!findTweet) {
+            return res.json({ success: false, message: "Tweet not found", data: [] })
+        }
+        return res.json({ success: true, message: "Tweet found", data: findTweet })
+    } catch (error) {
+        return res.json({ success: false, message: error.message, data: [] })
+    }
+
+}
+
+export const deleteTweet = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const deletedTweet = await tweetModel.findOneAndDelete({ _id: id, userId });
+        if (!deletedTweet) {
+            return res.json({ success: false, message: "Tweet not found or unauthorized" });
+        }
+        return res.json({ success: true, message: "Tweet deleted successfully" });
+    } catch (error) {
+        return res.json({ success: false, message: error.message });
+    }
+}
